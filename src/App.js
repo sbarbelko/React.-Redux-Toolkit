@@ -1,7 +1,8 @@
 import './App.css'
+import TasksPage from './pages/TasksPage'
 
 function App () {
-  return <div>HELLO</div>
+  return <TasksPage />
 }
 
 export default App

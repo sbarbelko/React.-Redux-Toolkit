@@ -1,7 +1,16 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-function TasksList () {
-  return <div>TasksList</div>
+function TasksList ({ tasks }) {
+  return (
+    <ul>
+      {tasks.map(t => (
+        <li key={t.id}> {t.body} </li>
+      ))}
+    </ul>
+  )
 }
 
-export default TasksList
+const mapStateToProps = ({ tasksList }) => tasksList
+
+export default connect(mapStateToProps)(TasksList)
