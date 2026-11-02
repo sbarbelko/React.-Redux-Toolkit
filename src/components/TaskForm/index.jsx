@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import * as yup from 'yup'
 import { createTask } from '../../store/slices/tasksSlice'
 import { v4 as uuidv4 } from 'uuid'
+import styles from './TaskForm.module.sass'
 
 const TaskValidationSchema = yup.object().shape({
   body: yup
@@ -34,18 +35,23 @@ function TaskForm ({ createNewTask }) {
       validationSchema={TaskValidationSchema}
       onSubmit={submitHandler}
     >
-      <Form>
-        <label>
+      <Form className={styles.tasksForm}>
+        <label className={styles.tasksLabel}>
           Task:
-          <Field name='body' type='text' placeholder='Your task' />
-          <ErrorMessage name='body' component='div' />
+          <Field
+            className={styles.tasksField}
+            name='body'
+            type='text'
+            placeholder='Your task'
+          />
+          <ErrorMessage className={styles.err}  name='body' component='div' />
         </label>
-        <label>
+        <label className={styles.tasksLabel}>
           Deadline:
-          <Field name='deadline' type='date' />
-          <ErrorMessage name='deadline' component='div' />
+          <Field className={styles.tasksField} name='deadline' type='date' />
+          <ErrorMessage className={styles.err} name='deadline' component='div' />
         </label>
-        <button type='submit'>Add task</button>
+        <button className={styles.submitBtn} type='submit'>Add task</button>
       </Form>
     </Formik>
   )
