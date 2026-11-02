@@ -1,17 +1,19 @@
-import { Field, Form, Formik } from 'formik'
+import { ErrorMessage, Field, Form, Formik } from 'formik'
 import React from 'react'
+import { connect } from 'react-redux'
 import * as yup from 'yup'
+import { createTask } from '../../store/slices/tasksSlice'
 
-const TaskSchema = yup.object().shape({
+const TaskValidationSchema = yup.object().shape({
   body: yup
     .string()
     .trim()
-    .min(3, 'Занадто коротке завдання (мінімум 3 символи)')
-    .required("Обов'язкове поле"),
-  deadline: yup.date().required('Вкажіть дедлайн')
+    .min(6, 'Task is too short (min 6)')
+    .required('Required'),
+  deadline: yup.date().required('Required')
 })
 
-function TaskForm () {
+function TaskForm ({ createNewTask }) {
   const submitHandler = (values, { resetForm }) => {
     const newTask = {
       id: crypto.randomUUID(),
@@ -20,26 +22,36 @@ function TaskForm () {
       deadline: values.deadline
     }
 
+    createNewTask(newTask)
+
     resetForm()
   }
 
   return (
     <Formik
       initialValues={{ body: '', deadline: '' }}
-      validationSchema={TaskSchema}
+      validationSchema={TaskValidationSchema}
       onSubmit={submitHandler}
     >
       <Form>
         <label>
-          <Field name='body' type='text' placeholder='Що треба зробити?' />
+          Task:
+          <Field name='body' type='text' placeholder='Your task' />
+          <ErrorMessage name='body' component='div' />
         </label>
         <label>
-          <Field type='date' name='deadline' />
+          Deadline:
+          <Field name='deadline' type='date' />
+          <ErrorMessage name='deadline' component='div' />
         </label>
-        <button type='submit'>Додати завдання</button>
+        <button type='submit'>Add task</button>
       </Form>
     </Formik>
   )
 }
 
-export default TaskForm
+const mapDispatchToProps = dispatch => ({
+  createNewTask: data => dispatch(createTask(data))
+})
+
+export default connect(null, mapDispatchToProps)(TaskForm)
