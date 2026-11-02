@@ -3,6 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import * as yup from 'yup'
 import { createTask } from '../../store/slices/tasksSlice'
+import { v4 as uuidv4 } from 'uuid'
 
 const TaskValidationSchema = yup.object().shape({
   body: yup
@@ -16,7 +17,7 @@ const TaskValidationSchema = yup.object().shape({
 function TaskForm ({ createNewTask }) {
   const submitHandler = (values, { resetForm }) => {
     const newTask = {
-      id: crypto.randomUUID(),
+      id: uuidv4(),
       body: values.body,
       isDone: false,
       deadline: values.deadline

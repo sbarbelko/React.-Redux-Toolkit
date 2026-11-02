@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { deleteTask, doneChage } from '../../store/slices/tasksSlice'
 
+
 function TasksList ({ tasks, deleteTaskById, doneChageById }) {
   return (
     <ul>
